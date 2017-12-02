@@ -90,10 +90,10 @@ public class CondorcetFragment extends Fragment implements View.OnClickListener{
                     i++;
                 }
                 for (int j=0; j < movieCount; j++){
-                    ranks[j][currentUser] = userRanks[j];
+                    ranks[currentUser] = userRanks;
                 }
                 if (currentUser == users-1){
-                    Movie chosen = Vote(ranks);
+                    Movie chosen = getWinner(ranks);
                 }
                 else{
                     currentUser += 1;
@@ -104,10 +104,57 @@ public class CondorcetFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private Movie Vote(int[][] rankings){
+    private Movie getWinner(int[][] rankings){
 
         Log.d(TAG, "Made it to voting" + ranks[0][0]);
+
+        int[] leftover = round(rankings);
+        if (leftover.length == 1){
+            Movie winner = movies.get(leftover[0]);
+        } else {
+            int[][] newRankings = new int[users][movieCount];
+            for (int i = 0; i< leftover.length; i++){
+            }
+        }
+
         return new Movie();
+    }
+    private int[] round(int[][]rankings) {
+        float [] votePercentages = new float[movieCount];
+        for (int i = 0; i < movies.size(); i++) {
+            int rankedFirst = 0;
+            for (int j = 0; i < users; i++) {
+                if (rankings[j][i] == 1)
+                    rankedFirst++;
+            }
+            float ratio = rankedFirst / users;
+            votePercentages[i] = ratio;
+        }
+        boolean found = false;
+        float minPercentage = votePercentages[0];
+        int minIndex = 0;
+        for (int i = 0; i < votePercentages.length; i++) {
+            int lowest = 0;
+            if (votePercentages[i] < minPercentage) {
+                minPercentage = votePercentages[i];
+                minIndex = i;
+            }
+            if (votePercentages[i] > 0.5)
+                found = true;
+                int[] winner = new int[1];
+                winner[0] = i;
+                return winner;
+        }
+        int[] leftover = new int[movieCount -1];
+        movieCount--;
+        for (int i=0; i<movieCount; i++){
+            if (i > minIndex){
+                leftover[i-1] = i;
+            } else if (i < minIndex){
+                leftover[i] = i;
+            }
+        }
+        return leftover;
     }
 
     private class MovieHolder extends RecyclerView.ViewHolder{
@@ -130,6 +177,7 @@ public class CondorcetFragment extends Fragment implements View.OnClickListener{
             votingSpinner.setAdapter(adapter);
 
         }
+
 
         public void bindMovie(final Movie movie){
             mMovie = movie;

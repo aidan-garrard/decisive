@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/movie_title"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/condorcet_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"/>
 
-    <Spinner
-        android:id="@+id/voting_rank_spinner"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/finished_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"/>
+        android:layout_below="@+id/condorcet_recycler_view"/>
 
 </RelativeLayout>
