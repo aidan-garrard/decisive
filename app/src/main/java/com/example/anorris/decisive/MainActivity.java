@@ -15,6 +15,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mSearchMovie;
     private Spinner mVotingSpinner;
     private Button mBeginVoting;
+    private Button mSearchButton;
     public Context context;
 
     @Override
@@ -39,6 +48,53 @@ public class MainActivity extends AppCompatActivity {
 
         mSearchMovie = (EditText) findViewById(R.id.movie_search_bar);
         mSearchMovie.setHint("Search Movie");
+
+        mSearchButton = (Button) findViewById(R.id.search_button);
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String apikey = "&apikey=df08b009";
+                String movieName = mSearchMovie.getText().toString();
+                String[] exploded = movieName.split(" ");
+                StringBuilder joined = new StringBuilder();
+                for (int i=0; i < exploded.length; i++) {
+                    if (exploded[i+1] != null)
+                        joined.append(exploded[i]).append("+");
+                    else joined.append(exploded[i]);
+                }
+                String searchString = "http://www.omdbapi.com/?t=" + joined.toString() + apikey;
+                URL url = null;
+                try {
+                    url = new URL(searchString);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                URLConnection urlc = null;
+                try {
+                    urlc = url.openConnection();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                urlc.setDoOutput(true);
+                urlc.setAllowUserInteraction(false);
+                BufferedReader br = null;
+                try {
+                    br = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String l = null;
+                try {
+                    l = br.readLine();
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Gson g = new Gson();
+                Movie thisMovie = g.fromJson(l, Movie.class);
+            }
+        });
 
         mVotingSpinner = (Spinner) findViewById(R.id.voting_system_spinner);
         ArrayAdapter<CharSequence> votingSpinnerAdapter = ArrayAdapter.createFromResource(
