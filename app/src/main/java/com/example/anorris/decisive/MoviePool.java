@@ -24,6 +24,18 @@ public class MoviePool{
 
     private MoviePool(Context context){
         mMovies = new ArrayList<>();
+        Movie movie = new Movie();
+        movie.setTitle("The Room");
+        mMovies.add(movie);
+        movie = new Movie();
+        movie.setTitle("Batman 2: BatManlier");
+        mMovies.add(movie);
+        movie = new Movie();
+        movie.setTitle("Apollo -1");
+        mMovies.add(movie);
+        movie = new Movie();
+        movie.setTitle("Bateman 2, Psychoer");
+        mMovies.add(movie);
     }
 
     public List<Movie> getmMovies(){

@@ -10,16 +10,25 @@
     <EditText
         android:id="@+id/movie_search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/movie_grid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/movie_search_bar"/>
 
     <Spinner
         android:id="@+id/voting_system_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/movie_grid"/>
+
+    <Button
+        android:id="@+id/begin_voting_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/voting_system_spinner"/>
 
 </RelativeLayout>

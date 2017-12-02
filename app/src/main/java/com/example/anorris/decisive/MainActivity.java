@@ -1,6 +1,7 @@
 package com.example.anorris.decisive;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Movie> movieList;
     private EditText mSearchMovie;
     private Spinner mVotingSpinner;
+    private Button mBeginVoting;
     public Context context;
 
     @Override
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         context = this;
 
         mRecyclerView = (RecyclerView) findViewById(R.id.movie_grid);
-        mLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, true);
+        mLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mSearchMovie = (EditText) findViewById(R.id.movie_search_bar);
@@ -44,7 +46,14 @@ public class MainActivity extends AppCompatActivity {
         votingSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mVotingSpinner.setAdapter(votingSpinnerAdapter);
 
-
+        mBeginVoting = (Button) findViewById(R.id.begin_voting_button);
+        mBeginVoting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = VotingActivity.newIntent(context, 1);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -55,8 +64,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
+        MoviePool moviePool = MoviePool.get(this);
+        List<Movie> movies = moviePool.getmMovies();
+
         if (mAdapter == null){
-            mAdapter = new MovieAdapter(movieList);
+            mAdapter = new MovieAdapter(movies);
             mRecyclerView.setAdapter(mAdapter);
         } else{
             mAdapter.notifyDataSetChanged();
@@ -76,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void bindMovie(Movie movie){
             mMovie = movie;
-            movieTitle.setText("The Room");
+            movieTitle.setText(movie.getTitle());
         }
     }
 
