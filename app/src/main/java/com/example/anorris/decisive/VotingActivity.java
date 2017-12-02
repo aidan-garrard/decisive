@@ -14,10 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 public class VotingActivity extends AppCompatActivity{
 
     public static final String EXTRA_VOTING_SYSTEM = "com.anorris.android.decisive.voting_id";
+    public static final String EXTRA_NUMBER_USERS = "com.anorris.android.decisive.number_users";
 
-    public static Intent newIntent(Context packageContext, int votingSystem){
+    public static Intent newIntent(Context packageContext, int votingSystem, int numUsers){
         Intent intent = new Intent(packageContext, VotingActivity.class);
         intent.putExtra(EXTRA_VOTING_SYSTEM, votingSystem);
+        intent.putExtra(EXTRA_NUMBER_USERS, numUsers);
         return intent;
 
     }
@@ -28,12 +30,13 @@ public class VotingActivity extends AppCompatActivity{
         setContentView(R.layout.activity_voting_layout);
 
         int votingSystem = (int) getIntent().getSerializableExtra(EXTRA_VOTING_SYSTEM);
+        int numUsers = (int) getIntent().getSerializableExtra(EXTRA_NUMBER_USERS);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.voting_fragment_container);
 
         if (fragment == null){
-            fragment = CondorcetFragment.newInstance();
+            fragment = FPTPFragment.newInstance(numUsers);
             fragmentManager.beginTransaction().add(R.id.voting_fragment_container, fragment).commit();
         }
     }

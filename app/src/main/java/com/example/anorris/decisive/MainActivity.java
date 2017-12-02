@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mSearchMovie;
     private Spinner mVotingSpinner;
     private Button mBeginVoting;
+    private EditText mUsers;
     public Context context;
 
     @Override
@@ -46,11 +48,24 @@ public class MainActivity extends AppCompatActivity {
         votingSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mVotingSpinner.setAdapter(votingSpinnerAdapter);
 
+        mUsers = (EditText) findViewById(R.id.number_users);
+        mUsers.setHint("Enter the number of voters");
+
         mBeginVoting = (Button) findViewById(R.id.begin_voting_button);
         mBeginVoting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = VotingActivity.newIntent(context, 1);
+                String numberUsers = mUsers.getText().toString();
+                List<String> accept = new ArrayList<>();
+                int numUsers = 2;
+                try{
+                    numUsers = Integer.valueOf(numberUsers);
+                }catch (Exception e){
+
+                }
+
+                int system = mVotingSpinner.getSelectedItemPosition();
+                Intent intent = VotingActivity.newIntent(context, system, numUsers);
                 startActivity(intent);
             }
         });

@@ -8,6 +8,7 @@ public class Movie {
 
     private String title;
     private int rank;
+    private int votes;
 
     public String getTitle(){
         return title;
@@ -23,5 +24,13 @@ public class Movie {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public void vote(){
+        votes += 1;
+    }
+
+    public int getVotes(){
+        return votes;
     }
 }

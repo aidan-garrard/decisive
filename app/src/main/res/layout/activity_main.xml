@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/movie_grid"
         android:layout_width="match_parent"
@@ -25,10 +26,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/movie_grid"/>
 
+    <EditText
+        android:id="@+id/number_users"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/voting_system_spinner"/>
+
     <Button
         android:id="@+id/begin_voting_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/voting_system_spinner"/>
+        android:layout_below="@id/number_users"/>
 
 </RelativeLayout>

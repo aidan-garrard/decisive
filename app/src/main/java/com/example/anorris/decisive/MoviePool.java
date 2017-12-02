@@ -41,4 +41,8 @@ public class MoviePool{
     public List<Movie> getmMovies(){
         return mMovies;
     }
+
+    public Movie getMovie(int position){
+        return mMovies.get(position);
+    }
 }

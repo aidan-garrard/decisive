@@ -24,7 +24,7 @@ import java.util.List;
 
 public class CondorcetFragment extends Fragment implements View.OnClickListener{
 
-    public static final String ARG_MOVIE_LIST = "movies_list";
+    private static final String ARGS_NUM_USERS = "number_users";
     public static final String TAG = "CondercetFragment";
 
     private RecyclerView mRecyclerView;
@@ -35,9 +35,9 @@ public class CondorcetFragment extends Fragment implements View.OnClickListener{
     private Context context;
     private int movieCount;
 
-    int users = 5;
-    int currentUser = 0;
-    int [][] ranks;
+    private int users;
+    private int currentUser = 0;
+    private int [][] ranks;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -48,6 +48,8 @@ public class CondorcetFragment extends Fragment implements View.OnClickListener{
         context = getActivity();
         mFinishedButton = (Button) view.findViewById(R.id.finished_button);
         mFinishedButton.setOnClickListener(this);
+
+        users = getArguments().getInt(ARGS_NUM_USERS);
 
         return view;
 
@@ -227,8 +229,13 @@ public class CondorcetFragment extends Fragment implements View.OnClickListener{
 
 
 
-    public static CondorcetFragment newInstance(){
+    public static CondorcetFragment newInstance(int numUsers){
+        Bundle args = new Bundle();
+        args.putInt(ARGS_NUM_USERS, numUsers);
+
+
         CondorcetFragment condorcetFragment = new CondorcetFragment();
+        condorcetFragment.setArguments(args);
         return condorcetFragment;
     }
 }
